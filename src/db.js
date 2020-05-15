@@ -1,38 +1,31 @@
-import Sequelize from 'sequelize'
-import fs from 'fs'
 import path from 'path'
+import { Database } from 'sqlite3'
 
-let db = null
+class DataBase {
 
-module.exports = app => {
-    
-    const config = app.libs.config
-    console.log(config)
-    if(!db){
-       const sequelize = new Sequelize(
-           config.database,
-           config.username,
-           config.password,
-           config.params
-       )
-
-       db = {
-           sequelize,
-           Sequelize,
-           models: {}
-       }
-       const dir = path.join(__dirname, 'models')
-       fs.readdirSync(dir).forEach(filename =>{
-            const modelDir = path.join(dir, filename)
-            const model = sequelize.import(modelDir)
-            db.models[model.name] = model
-        })
-
-        Object.keys(db.models).forEach(key => {
-            db.models[key].associate(db.models)
-        })
+    constructor(name, config){
+        this.dataBase = new Database(path.join(__dirname, name))
+        this.queries = config
     }
 
-    return db
+    async createDb(){
 
-} 
+        this.dataBase.serialize(() => {
+            this.dataBase.run(this.queries.Users)
+            this.dataBase.run(this.queries.Tasks)
+        })
+
+        return true
+    }
+
+    getDataBase(){
+        return this.dataBase
+    }
+}
+
+
+module.exports = app => {
+
+    const dataBase = new DataBase('tasks-db.sqlite', app.libs.config)
+    return dataBase
+}
