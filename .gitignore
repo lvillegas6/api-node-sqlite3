@@ -1,3 +1,4 @@
 node_modules
-tasks-db.sqlite
+tasks.sqlite
+data.sql
 dist

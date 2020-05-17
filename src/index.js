@@ -1,13 +1,24 @@
-import express from 'express'
-import consign from 'consign'
+import App from './App'
+import { setupDataBase } from './db/database'
 
-const app = express();
 
-consign({ cwd: __dirname })
-    .include('libs/config.js')
-    .then('db.js')
-    .then('libs/middlewares.js')
-    .then('routes')
-    .then('libs/boot.js')
-    .into(app)
+async function main(){
+    const app = new App()
+
+  try{
+
+    await setupDataBase().then()
+    await app.listen().then()
+
+  } catch(err) {
+    console.log(err)
+  }
+} 
+
+main()
+
+
+
+
+
 
