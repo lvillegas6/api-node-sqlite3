@@ -1,7 +1,9 @@
-module.exports = app => {
+import indexStart from '../controller/index'
+import { Router } from 'express'
 
-    app.get('/', (req, res) => {
-        res.json({status: 'Task Api'})
-    })
+const router = Router()
 
-}
+router.route('/')
+    .get(indexStart)
+
+export default router
