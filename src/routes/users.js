@@ -2,7 +2,8 @@ import {
 
    createUser,
    getUsers,
-   getUser
+   getUser,
+   deleteUser
 
 } from '../controller/userController'
 
@@ -15,5 +16,6 @@ router.route('/users')
 
 router.route('/users/:id')
    .get(getUser)
+   .delete(deleteUser)
 
 export default router

@@ -1,6 +1,7 @@
 import express from 'express'
 import startRoute from './routes/index'
 import userRoute from './routes/users'
+import taskRoute from './routes/tasks'
 
 export default class App {
 
@@ -24,6 +25,7 @@ export default class App {
     routes(){
         this.app.use(startRoute)
         this.app.use(userRoute)
+        this.app.use(taskRoute)
     }
 
     async listen() {

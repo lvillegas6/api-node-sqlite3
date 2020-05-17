@@ -39,3 +39,16 @@ export function getUser(req, res){
     })
 }
 
+export function deleteUser(req, res){
+   const stmt = db.prepare(`DELETE FROM Users WHERE id = ?`)
+   stmt.run(req.params.id)
+   stmt.finalize(err => {
+      if (err) {
+         res.status(412).json({ msg: err.message })
+      } else {
+         res.status(200).json({ status: 'OK' })
+      }
+   })
+}
+
+
